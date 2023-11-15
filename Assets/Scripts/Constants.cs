@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 
 public class Constants
 {
@@ -17,4 +13,6 @@ public class Constants
     public static int TARGET_ROW = 3;
     public static int BOARD_ROW = 6;
     public static int BOARD_COLUMN = 6;
+
+    public static Vector2Int TARGET_POSITION = new Vector2Int(3, 4);
 }
