@@ -7,8 +7,7 @@ public class Solver
     
 
     public static List<Node> FindPath(Node startNode)
-    {
-        List<Node> path = new List<Node>(); 
+    { 
         List<Node> openList = new List<Node>();
         List<Node> closedList = new List<Node>();
 
@@ -18,37 +17,47 @@ public class Solver
         startNode.hCost = GetHeuristic(startNode);
         startNode.fCoast = startNode.gCost + startNode.hCost;
 
-        Node currentNode = null;
+        Node currentNode;
 
         while(openList.Count > 0)
         {
             currentNode = GetMinimumNode(openList);
 
+            //Checks if the end node was reached
             if (currentNode.MainPawn.Position == Constants.TARGET_POSITION)
                 return BuildPath(startNode, currentNode);
 
             openList.Remove(currentNode);
             closedList.Add(currentNode);
-            
 
+            List<Node> neighbors = GetAllNeighbors(currentNode);
+            //for each neighbor of currentNode 
+            for (int i = 0; i < neighbors.Count; i++)
+            {
+                //ignores already explored nodes
+                if (closedList.Contains(neighbors[i]))
+                    continue;
+
+                int newGcost = currentNode.gCost + neighbors[i].PartialGCost;
+                if (!openList.Contains(neighbors[i]) || newGcost < neighbors[i].gCost)
+                {
+                    neighbors[i].gCost = newGcost;
+                    neighbors[i].hCost = GetHeuristic(neighbors[i]);
+                    neighbors[i].fCoast = neighbors[i].gCost + neighbors[i].hCost;
+
+                    if (!openList.Contains(neighbors[i]))
+                        openList.Add(neighbors[i]);
+                }
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        return path;
+        //if openList is empty no path was found, return null
+        Debug.Log("Path Not Found");
+        return null;
     }
 
+    /// <summary>
+    /// return the H cost ( H = number of squares the target block is away from the right side of the board + number of moves to move the blocks blocking the target block)
+    /// </summary>
     private static int GetHeuristic(Node targetNode)
     {
         int heuristic = 0;
@@ -112,10 +121,11 @@ public class Solver
     {
         List<Node> neighbors = new List<Node>();
 
+        AddNeighbors(neighbors, rootNode, rootNode.MainPawn);
+
         foreach (Pawn pawn in rootNode.Pawns)
             AddNeighbors(neighbors, rootNode, pawn);
 
-        AddNeighbors(neighbors, rootNode, rootNode.MainPawn);
 
         return neighbors;
     }
@@ -123,9 +133,12 @@ public class Solver
     private static void AddNeighbors(List<Node> neighbors, Node rootNode, Pawn pawn)
     {
         List<Vector2Int> availablesPosition = GetAvailablesPositions(rootNode, pawn);
-
+        int partialGCost;
         foreach(Vector2Int position in availablesPosition)
-            neighbors.Add(new Node(rootNode.MainPawn, rootNode.Pawns, rootNode, pawn.ID, position));
+        {
+            partialGCost = (int)Vector2Int.Distance(pawn.Position, position);
+            neighbors.Add(new Node(rootNode.Board, rootNode.MainPawn, rootNode.Pawns, partialGCost, rootNode, pawn.ID, position));
+        }
     }
 
 

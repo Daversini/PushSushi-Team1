@@ -180,6 +180,64 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7806c3dd44d8c0148a2a6db974b12cf2, type: 3}
+--- !u!1 &960901331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 960901333}
+  - component: {fileID: 960901332}
+  m_Layer: 0
+  m_Name: Debugger (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &960901332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960901331}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fd9909c2fe4f646999388e2313b081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testNode:
+    MainPawn:
+      ID: 0
+      Length: 2
+      Orientation: 0
+      Position: {x: 3, y: 1}
+    Pawns: []
+    gCost: 0
+    hCost: 0
+    fCoast: 0
+    PartialGCost: 0
+  printBoard: 0
+  pippo: 0
+  i: 0
+--- !u!4 &960901333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960901331}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1195865639
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,16 +379,62 @@ MonoBehaviour:
       ID: 0
       Length: 2
       Orientation: 0
-      Position: {x: 3, y: 0}
+      Position: {x: 3, y: 1}
     Pawns:
     - ID: 1
-      Length: 3
+      Length: 2
+      Orientation: 0
+      Position: {x: 5, y: 0}
+    - ID: 2
+      Length: 2
+      Orientation: 0
+      Position: {x: 4, y: 0}
+    - ID: 3
+      Length: 2
+      Orientation: 0
+      Position: {x: 5, y: 4}
+    - ID: 4
+      Length: 2
       Orientation: 1
       Position: {x: 3, y: 3}
+    - ID: 5
+      Length: 2
+      Orientation: 1
+      Position: {x: 3, y: 4}
+    - ID: 6
+      Length: 3
+      Orientation: 1
+      Position: {x: 2, y: 5}
+    - ID: 7
+      Length: 3
+      Orientation: 0
+      Position: {x: 0, y: 3}
+    - ID: 8
+      Length: 2
+      Orientation: 1
+      Position: {x: 2, y: 0}
+    - ID: 9
+      Length: 2
+      Orientation: 1
+      Position: {x: 0, y: 0}
+    - ID: 10
+      Length: 2
+      Orientation: 0
+      Position: {x: 1, y: 1}
+    - ID: 11
+      Length: 2
+      Orientation: 0
+      Position: {x: 2, y: 3}
+    - ID: 12
+      Length: 2
+      Orientation: 0
+      Position: {x: 1, y: 4}
     gCost: 0
     hCost: 0
     fCoast: 0
+    PartialGCost: 0
   printBoard: 1
+  pippo: 100
   i: 0
 --- !u!1 &1359836129
 GameObject:
@@ -433,4 +537,5 @@ SceneRoots:
   - {fileID: 1195865642}
   - {fileID: 1359836131}
   - {fileID: 1353884071}
+  - {fileID: 960901333}
   - {fileID: 398403097}
