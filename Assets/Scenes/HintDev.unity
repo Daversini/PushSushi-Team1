@@ -323,26 +323,15 @@ MonoBehaviour:
       Orientation: 0
       Position: {x: 3, y: 0}
     Pawns:
-    - ID: 0
-      Length: 3
-      Orientation: 1
-      Position: {x: 3, y: 2}
-    - ID: 0
+    - ID: 1
       Length: 3
       Orientation: 1
       Position: {x: 3, y: 3}
-    - ID: 0
-      Length: 3
-      Orientation: 1
-      Position: {x: 0, y: 5}
-    - ID: 0
-      Length: 2
-      Orientation: 1
-      Position: {x: 4, y: 1}
     gCost: 0
     hCost: 0
     fCoast: 0
-  printBoard: 0
+  printBoard: 1
+  i: 0
 --- !u!1 &1359836129
 GameObject:
   m_ObjectHideFlags: 0

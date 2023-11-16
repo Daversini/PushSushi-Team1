@@ -108,72 +108,100 @@ public class Solver
     }
 
 
-    private static List<Node> GetNeighbors(Node rootNode)
+    public static List<Node> GetAllNeighbors(Node rootNode)
     {
-        List<Node> neighbors = null;
+        List<Node> neighbors = new List<Node>();
 
-        for(int i = 0; i <= rootNode.Pawns.Length; i++)
-        {
-            if (i == rootNode.Pawns.Length)
-            {
-                // analyze the main pawn of rootNode here
-            }
+        foreach (Pawn pawn in rootNode.Pawns)
+            AddNeighbors(neighbors, rootNode, pawn);
 
-
-        }
+        AddNeighbors(neighbors, rootNode, rootNode.MainPawn);
 
         return neighbors;
     }
 
-    private static List<Node> GetNeighborsFromPawn(Pawn pawn)
+    private static void AddNeighbors(List<Node> neighbors, Node rootNode, Pawn pawn)
     {
-        List<Node> neighbors = null;
+        List<Vector2Int> availablesPosition = GetAvailablesPositions(rootNode, pawn);
 
-        int availablesMovesCount = 0;
-
-        return neighbors;
+        foreach(Vector2Int position in availablesPosition)
+            neighbors.Add(new Node(rootNode.MainPawn, rootNode.Pawns, rootNode, pawn.ID, position));
     }
+
+
 
     private static List<Vector2Int> GetAvailablesPositions(Node rootNode, Pawn pawn)
     {
         List<Vector2Int> availablePositions = new List<Vector2Int>();
 
         if (pawn.Orientation == Orientation.Horizontal)
-        {
-            for(int i = 0; i < pawn.Position.y; i++)
-            {
-                Vector2Int position = new Vector2Int(pawn.Position.x, i);
-                //if position is free (no obstacles on it)
-                if (!rootNode.Board[position.x, position.y])
-                    availablePositions.Add(position);
-            }
-            for (int i = pawn.Position.y + pawn.Length; i < Constants.BOARD_COLUMN; i++)
-            {
-                Vector2Int position = new Vector2Int(pawn.Position.x, i);
-                //if position is free (no obstacles on it)
-                if (!rootNode.Board[position.x, position.y])
-                    availablePositions.Add(position);
-            }
-
-        }
+            AddAvailablesPositionsHorizontal(availablePositions, rootNode, pawn);
         else
-        {
-            for (int i = 0; i < pawn.Position.x; i++)
-            {
-                Vector2Int position = new Vector2Int(i, pawn.Position.y);
-                if (!rootNode.Board[position.x, position.y])
-                    availablePositions.Add(position);
-            }
-            for (int i = pawn.Position.x + pawn.Length; i < Constants.BOARD_ROW; i++)
-            {
-                Vector2Int position = new Vector2Int(i, pawn.Position.y);
-                if (!rootNode.Board[position.x, position.y])
-                    availablePositions.Add(position);
-            }
-        }
-
+            AddAvailablesPositionsVertical(availablePositions, rootNode, pawn);
+        
         return availablePositions;
     }
 
+    private static void AddAvailablesPositionsHorizontal(List<Vector2Int> availablePositions, Node rootNode, Pawn pawn)
+    {
+        int firstOccupiedColumnRight = GetFirstOccupiedColumnRight(rootNode, pawn);
+        int firstOccupiedColumnLeft = GetFirstOccupiedColumnLeft(rootNode, pawn);
+
+        for (int i = firstOccupiedColumnRight + 1; i < pawn.Position.y; i++)
+            availablePositions.Add(new Vector2Int(pawn.Position.x, i));
+        for (int i = pawn.Position.y + 1; i <= firstOccupiedColumnLeft - pawn.Length; i++)
+            availablePositions.Add(new Vector2Int(pawn.Position.x, i));
+    }
+
+    private static void AddAvailablesPositionsVertical(List<Vector2Int> availablePositions, Node rootNode, Pawn pawn)
+    {
+        int firstOccupiedRowDown = GetFirstOccupiedRowDown(rootNode, pawn);
+        int firstOccupiedRowUp = GetFirstOccupiedRowUp(rootNode, pawn);
+
+        for (int i = firstOccupiedRowDown + 1; i < pawn.Position.x; i++)
+            availablePositions.Add(new Vector2Int(i, pawn.Position.y));
+        for (int i = pawn.Position.x + 1; i <= firstOccupiedRowUp - pawn.Length; i++)
+            availablePositions.Add(new Vector2Int(i, pawn.Position.y));
+    }
+
+    private static int GetFirstOccupiedColumnRight(Node rootNode, Pawn pawn)
+    {
+        for (int i = pawn.Position.y - 1; i >= 0; i--)
+        {
+            if (rootNode.Board[pawn.Position.x, i])
+                return i;
+        }
+        return -1;
+    }
+
+    private static int GetFirstOccupiedColumnLeft(Node rootNode, Pawn pawn)
+    {
+        for (int i = pawn.Position.y + pawn.Length; i < Constants.BOARD_COLUMN; i++)
+        {
+            if (rootNode.Board[pawn.Position.x, i])
+                return i;
+        }
+        return Constants.BOARD_COLUMN;
+    }
+
+    private static int GetFirstOccupiedRowDown(Node rootNode, Pawn pawn)
+    {
+        for (int i = pawn.Position.x - 1; i >= 0; i--)
+        {
+            if (rootNode.Board[i, pawn.Position.y])
+                return i;
+        }
+        return -1;
+    }
+
+    private static int GetFirstOccupiedRowUp(Node rootNode, Pawn pawn)
+    {
+        for (int i = pawn.Position.x + pawn.Length; i < Constants.BOARD_ROW; i++)
+        {
+            if (rootNode.Board[i, pawn.Position.y])
+                return i;
+        }
+        return Constants.BOARD_ROW;
+    }
 
 }

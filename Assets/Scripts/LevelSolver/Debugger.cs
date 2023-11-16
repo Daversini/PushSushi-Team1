@@ -8,16 +8,29 @@ public class Debugger : MonoBehaviour
     public bool printBoard;
     Grid<Tile> _grid = new Grid<Tile>(6, 6, 1f, new Vector3(-3f, 0f, -3f), (int x, int y) => new Tile(x, y));
 
+    List<Node> test;
+
     private void Awake()
     {
-        testNode.InitBoard();
+        testNode.UpdateBoard();
+        //List<Vector2Int> test = Solver.GetAvailablesPositions(testNode, testNode.MainPawn);
+        //foreach (Vector2Int i in test)
+        //    Debug.Log(i);
+
+        test = Solver.GetAllNeighbors(testNode);
+        Debug.Log(test.Count);
     }
 
     private void OnDrawGizmos()
     {
         if (Application.isPlaying && printBoard)
-            PrintBoard(testNode.Board);
+        {
+            //PrintBoard(testNode.Board);
+            PrintBoard(test[i].Board);
+        }
     }
+
+    public int i;
 
     public void PrintBoard(bool[,] boardToPrint)
     {
